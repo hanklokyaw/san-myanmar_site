@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
+import os
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # for flash messages
+app.secret_key = os.getenv("FLASK_SECRET_KEY")  # for flash messages
 Bootstrap(app)
 
 @app.route("/")
