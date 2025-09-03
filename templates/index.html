@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="mb-4" style="max-width:180px;">
+    <h1 class="fw-bold">Welcome to ModernLite Housing</h1>
+    <p class="lead">We build fast, durable, and eco-friendly homes using modern PVC board structures.</p>
+    <div class="ratio ratio-16x9 mt-4">
+        <video controls>
+            <source src="{{ url_for('static', filename='video.mp4') }}" type="video/mp4">
+            Your browser does not support video playback.
+        </video>
+    </div>
+</div>
+{% endblock %}
