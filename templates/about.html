@@ -1,10 +1,47 @@
 {% extends "base.html" %}
+{% block title %}About · Smart Housing{% endblock %}
 {% block content %}
-<h2>About Us</h2>
-<p>
-    At <strong>Smart House</strong>, we specialize in constructing modern,
-    lightweight housing solutions that are cost-effective, fast to assemble, and eco-friendly.
-    Our PVC board-based structures combine durability with sustainability,
-    making them ideal for residential and commercial applications.
-</p>
+
+<section class="py-5">
+  <div class="container">
+    <h1 class="fw-bold mb-4 text-center">About Us</h1>
+    <p class="lead text-center text-muted mb-5">
+      At Smart Housing, we are redefining the way homes are built — with speed, durability, and sustainability in mind.
+    </p>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="fw-bold">🌱 Our Mission</h5>
+            <p class="text-muted">
+              To create affordable, eco-friendly housing solutions using modern PVC board structures, reducing environmental impact without compromising comfort.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="fw-bold">👷 Our Expertise</h5>
+            <p class="text-muted">
+              With years of experience in modular housing, our team combines engineering innovation and architectural design to deliver long-lasting homes quickly.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="fw-bold">🌍 Our Vision</h5>
+            <p class="text-muted">
+              To make sustainable living accessible worldwide, building communities that thrive on innovation and respect for the environment.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
