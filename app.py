@@ -4,23 +4,13 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Email
 import os
-import logging
+import sqlite3
 from datetime import datetime
 
 # Flask setup
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback-secret")
 Bootstrap(app)
-
-# Configure logging
-if not os.path.exists("logs"):
-    os.makedirs("logs")
-
-logging.basicConfig(
-    filename="logs/visitors.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(message)s",
-)
 
 # Contact form class
 class ContactForm(FlaskForm):
@@ -29,13 +19,28 @@ class ContactForm(FlaskForm):
     message = TextAreaField("Message", validators=[DataRequired()])
     submit = SubmitField("Send Message")
 
-# Visitor logging
+# --- Step 3: Database logging ---
+def log_to_db(ip, path, agent):
+    conn = sqlite3.connect("logs/visitors.db")
+    c = conn.cursor()
+    c.execute("""CREATE TABLE IF NOT EXISTS visitors (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    ip TEXT,
+                    path TEXT,
+                    agent TEXT,
+                    timestamp TEXT
+                )""")
+    c.execute("INSERT INTO visitors (ip, path, agent, timestamp) VALUES (?, ?, ?, ?)",
+              (ip, path, agent, datetime.utcnow().isoformat()))
+    conn.commit()
+    conn.close()
+
 @app.before_request
 def log_visitors():
     ip = request.headers.get("X-Forwarded-For", request.remote_addr)
     user_agent = request.user_agent.string
     path = request.path
-    logging.info(f"Visitor IP: {ip}, Path: {path}, Agent: {user_agent}")
+    log_to_db(ip, path, user_agent)
 
 @app.route("/")
 def index():
@@ -54,4 +59,6 @@ def contact():
     return render_template("contact.html", form=form)
 
 if __name__ == "__main__":
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
     app.run(debug=True)
