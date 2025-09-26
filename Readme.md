@@ -1,4 +1,4 @@
-# Smart Housing Flask App
+# Smart House Flask App
 
 This is a Flask-based web application for **Smart Housing**, a modern housing solution company.  
 The app includes a professional landing page, About page, Contact form with validation, and visitor logging.
