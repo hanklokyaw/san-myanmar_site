@@ -7,6 +7,14 @@ import os
 import sqlite3
 from datetime import datetime
 
+# --- Setup absolute paths ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # path to your project folder
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+DB_PATH = os.path.join(LOGS_DIR, "visitors.db")
+
+# ensure logs folder exists
+os.makedirs(LOGS_DIR, exist_ok=True)
+
 # Flask setup
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback-secret")
@@ -19,9 +27,9 @@ class ContactForm(FlaskForm):
     message = TextAreaField("Message", validators=[DataRequired()])
     submit = SubmitField("Send Message")
 
-# --- Step 3: Database logging ---
+# --- Database logging ---
 def log_to_db(ip, path, agent):
-    conn = sqlite3.connect("logs/visitors.db")
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS visitors (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -58,7 +66,6 @@ def contact():
         return redirect(url_for("contact"))
     return render_template("contact.html", form=form)
 
+# --- Only for local dev ---
 if __name__ == "__main__":
-    if not os.path.exists("logs"):
-        os.makedirs("logs")
     app.run(debug=True)
